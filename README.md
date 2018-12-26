@@ -8,11 +8,52 @@ Terraform module template following [Standard Module Structure](https://www.terr
 
 ## Usage
 
-Named `terraform-<PROVIDER>-<NAME>`. Module repositories must use this three-part name format.
+### Minimal
 
-```sh
-curl -fsSL https://raw.githubusercontent.com/tmknom/terraform-aws-codepipeline-for-ecs/master/install | sh -s terraform-aws-sample
-cd terraform-aws-sample && make install
+```hcl
+module "codepipeline" {
+  source               = "git::https://github.com/tmknom/terraform-aws-codepipeline-for-ecs.git?ref=tags/1.0.0"
+  name                 = "example"
+  artifact_bucket_name = "${var.artifact_bucket_name}"
+  github_oauth_token   = "xxxxxxxx"
+  repository_owner     = "tmknom"
+  repository_name      = "terraform-aws-codepipeline-for-ecs"
+  project_name         = "${var.project_name}"
+  secret_token         = "YouShouldSetVeryStrongSecretToken!"
+  cluster_name         = "${var.cluster_name}"
+  service_name         = "${var.service_name}"
+}
+```
+
+### Complete
+
+```hcl
+module "codepipeline" {
+  source               = "git::https://github.com/tmknom/terraform-aws-codepipeline-for-ecs.git?ref=tags/1.0.0"
+  name                 = "example"
+  artifact_bucket_name = "${var.artifact_bucket_name}"
+  github_oauth_token   = "xxxxxxxx"
+  repository_owner     = "tmknom"
+  repository_name      = "terraform-aws-codepipeline-for-ecs"
+  project_name         = "${var.project_name}"
+  secret_token         = "YouShouldSetVeryStrongSecretToken!"
+  cluster_name         = "${var.cluster_name}"
+  service_name         = "${var.service_name}"
+
+  encryption_key_id       = ""
+  branch                  = "develop"
+  poll_for_source_changes = false
+  file_name               = "image.json"
+  filter_json_path        = "$.ref"
+  filter_match_equals     = "refs/heads/{Branch}"
+  webhook_events          = ["push"]
+  iam_path                = "/service-role/"
+  description             = "This is example"
+
+  tags = {
+    Environment = "prod"
+  }
+}
 ```
 
 ## Examples
