@@ -1,0 +1,29 @@
+version: 0.2
+
+# https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-cd-pipeline.html
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - env
+      - aws --version
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - REPOSITORY_URI=$(aws ecr describe-repositories --repository-names codepipeline-for-ecs --output text --query "repositories[0].repositoryUri")
+      - IMAGE_TAG=$(echo release-$CODEBUILD_RESOLVED_SOURCE_VERSION)
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest -f examples/minimal/Dockerfile examples/minimal
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"example","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - cat imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
