@@ -173,6 +173,44 @@ resource "aws_codepipeline_webhook" "default" {
   }
 }
 
+# https://www.terraform.io/docs/providers/github/r/repository_webhook.html
+resource "github_repository_webhook" "default" {
+  repository = "${var.repository_name}"
+
+  # Use "web" for a webhook.
+  # https://developer.github.com/v3/repos/hooks/#create-a-hook
+  name = "web"
+
+  configuration {
+    # The URL to which the payloads will be delivered.
+    url = "${aws_codepipeline_webhook.default.url}"
+
+    # Set the same value as secret_token of aws_codepipeline_webhook.
+    # The secret will be used as the key to generate the HMAC hex digest value in the X-Hub-Signature header.
+    #
+    # The HMAC hex digest of the response body. This header will be sent if the webhook is configured with a secret.
+    # The HMAC hex digest is generated using the sha1 hash function and the secret as the HMAC key.
+    # https://developer.github.com/webhooks/#delivery-headers
+    #
+    # The key for HMAC can be of any length. However, less than L bytes is strongly discouraged as it would decrease
+    # the security strength of the function (L=20 for SHA-1).
+    # https://www.ietf.org/rfc/rfc2104.txt
+    secret = "${var.secret_token}"
+
+    # The media type used to serialize the payloads.
+    content_type = "json"
+
+    # Determines whether the SSL certificate of the host for url will be verified when delivering payloads.
+    # Strongly recommend not setting this to true as you are subject to man-in-the-middle and other attacks.
+    # https://developer.github.com/v3/repos/hooks/#create-hook-config-params
+    insecure_ssl = false
+  }
+
+  # A list of events which should trigger the webhook.
+  # https://developer.github.com/v3/activity/events/types/
+  events = ["${var.webhook_events}"]
+}
+
 # CodePipeline Service Role
 #
 # https://docs.aws.amazon.com/codepipeline/latest/userguide/how-to-custom-role.html

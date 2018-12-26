@@ -79,6 +79,12 @@ variable "filter_match_equals" {
   description = "The value to match on (e.g. refs/heads/{Branch})."
 }
 
+variable "webhook_events" {
+  default     = ["push"]
+  type        = "list"
+  description = "A list of events which should trigger the webhook."
+}
+
 variable "iam_path" {
   default     = "/"
   type        = "string"

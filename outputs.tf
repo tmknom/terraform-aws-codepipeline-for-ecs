@@ -18,6 +18,11 @@ output "codepipeline_webhook_url" {
   description = "The CodePipeline webhook's URL. POST events to this endpoint to trigger the target."
 }
 
+output "github_repository_webhook_url" {
+  value       = "${github_repository_webhook.default.url}"
+  description = "URL of the webhook."
+}
+
 output "iam_role_arn" {
   value       = "${aws_iam_role.default.arn}"
   description = "The Amazon Resource Name (ARN) specifying the IAM Role."
