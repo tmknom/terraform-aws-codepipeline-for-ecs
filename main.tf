@@ -138,6 +138,41 @@ data "aws_kms_alias" "s3" {
   name = "alias/aws/s3"
 }
 
+# Webhook for GitHub Pipeline
+#
+# https://docs.aws.amazon.com/codepipeline/latest/userguide/pipelines-webhooks.html
+
+# https://www.terraform.io/docs/providers/aws/r/codepipeline_webhook.html
+resource "aws_codepipeline_webhook" "default" {
+  name            = "${aws_codepipeline.default.name}"
+  target_pipeline = "${aws_codepipeline.default.name}"
+
+  # The name of the action in a pipeline you want to connect to the webhook.
+  # The action must be from the source (first) stage of the pipeline.
+  target_action = "Source"
+
+  # GITHUB_HMAC implements the authentication scheme described here: https://developer.github.com/webhooks/securing/
+  # https://docs.aws.amazon.com/codepipeline/latest/APIReference/API_WebhookDefinition.html#CodePipeline-Type-WebhookDefinition-authentication
+  authentication = "GITHUB_HMAC"
+
+  # Set the same value as Secret of GitHub.
+  #
+  # NOTE: This value will be a random character string consisting of 96 numeric characters
+  #       when you setup from the AWS Management Console.
+  #
+  # https://docs.aws.amazon.com/codepipeline/latest/APIReference/API_WebhookAuthConfiguration.html
+  authentication_configuration {
+    secret_token = "${var.secret_token}"
+  }
+
+  # The event criteria that specify when a webhook notification is sent to your URL.
+  # https://docs.aws.amazon.com/codepipeline/latest/APIReference/API_WebhookFilterRule.html
+  filter {
+    json_path    = "${var.filter_json_path}"
+    match_equals = "${var.filter_match_equals}"
+  }
+}
+
 # CodePipeline Service Role
 #
 # https://docs.aws.amazon.com/codepipeline/latest/userguide/how-to-custom-role.html

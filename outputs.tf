@@ -8,6 +8,16 @@ output "codepipeline_arn" {
   description = "The codepipeline ARN."
 }
 
+output "codepipeline_webhook_id" {
+  value       = "${aws_codepipeline_webhook.default.id}"
+  description = "The CodePipeline webhook's ARN."
+}
+
+output "codepipeline_webhook_url" {
+  value       = "${aws_codepipeline_webhook.default.url}"
+  description = "The CodePipeline webhook's URL. POST events to this endpoint to trigger the target."
+}
+
 output "iam_role_arn" {
   value       = "${aws_iam_role.default.arn}"
   description = "The Amazon Resource Name (ARN) specifying the IAM Role."

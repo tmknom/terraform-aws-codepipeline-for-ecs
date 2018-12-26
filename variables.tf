@@ -38,6 +38,11 @@ variable "service_name" {
   description = "The name of the ECS Service."
 }
 
+variable "secret_token" {
+  type        = "string"
+  description = "The secret token for the GitHub webhook."
+}
+
 variable "encryption_key_id" {
   default     = ""
   type        = "string"
@@ -60,6 +65,18 @@ variable "file_name" {
   default     = "imagedefinitions.json"
   type        = "string"
   description = "The file name of the image definitions."
+}
+
+variable "filter_json_path" {
+  default     = "$.ref"
+  type        = "string"
+  description = "The JSON path to filter on."
+}
+
+variable "filter_match_equals" {
+  default     = "refs/heads/{Branch}"
+  type        = "string"
+  description = "The value to match on (e.g. refs/heads/{Branch})."
 }
 
 variable "iam_path" {
