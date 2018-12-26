@@ -6,6 +6,17 @@
 
 Terraform module which creates CodePipeline for ECS resources on AWS.
 
+## Description
+
+Provision [CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome.html) and
+[GitHub Webhooks](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipelines-webhooks.html).
+
+This module provides recommended settings:
+
+- Integration with GitHub
+- Disable periodic checks
+- Securing webhooks
+
 ## Usage
 
 ### Minimal
