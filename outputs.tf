@@ -1,3 +1,13 @@
+output "codepipeline_id" {
+  value       = "${aws_codepipeline.default.id}"
+  description = "The codepipeline ID."
+}
+
+output "codepipeline_arn" {
+  value       = "${aws_codepipeline.default.arn}"
+  description = "The codepipeline ARN."
+}
+
 output "iam_role_arn" {
   value       = "${aws_iam_role.default.arn}"
   description = "The Amazon Resource Name (ARN) specifying the IAM Role."

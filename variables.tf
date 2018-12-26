@@ -8,6 +8,60 @@ variable "artifact_bucket_name" {
   description = "The S3 Bucket name of artifacts."
 }
 
+variable "github_oauth_token" {
+  type        = "string"
+  description = "The OAuth Token of GitHub."
+}
+
+variable "repository_owner" {
+  type        = "string"
+  description = "The owner of the repository."
+}
+
+variable "repository_name" {
+  type        = "string"
+  description = "The name of the repository."
+}
+
+variable "project_name" {
+  type        = "string"
+  description = "The project name of the CodeBuild."
+}
+
+variable "cluster_name" {
+  type        = "string"
+  description = "The name of the ECS Cluster."
+}
+
+variable "service_name" {
+  type        = "string"
+  description = "The name of the ECS Service."
+}
+
+variable "encryption_key_id" {
+  default     = ""
+  type        = "string"
+  description = "The KMS key ARN or ID."
+}
+
+variable "branch" {
+  default     = "master"
+  type        = "string"
+  description = "The name of the branch."
+}
+
+variable "poll_for_source_changes" {
+  default     = false
+  type        = "string"
+  description = "Specify true to indicate that periodic checks enabled."
+}
+
+variable "file_name" {
+  default     = "imagedefinitions.json"
+  type        = "string"
+  description = "The file name of the image definitions."
+}
+
 variable "iam_path" {
   default     = "/"
   type        = "string"
