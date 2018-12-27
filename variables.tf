@@ -39,6 +39,7 @@ variable "service_name" {
 }
 
 variable "secret_token" {
+  default     = ""
   type        = "string"
   description = "The secret token for the GitHub webhook."
 }

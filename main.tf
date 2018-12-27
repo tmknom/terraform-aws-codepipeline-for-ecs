@@ -162,7 +162,7 @@ resource "aws_codepipeline_webhook" "default" {
   #
   # https://docs.aws.amazon.com/codepipeline/latest/APIReference/API_WebhookAuthConfiguration.html
   authentication_configuration {
-    secret_token = "${var.secret_token}"
+    secret_token = "${local.secret_token}"
   }
 
   # The event criteria that specify when a webhook notification is sent to your URL.
@@ -195,7 +195,7 @@ resource "github_repository_webhook" "default" {
     # The key for HMAC can be of any length. However, less than L bytes is strongly discouraged as it would decrease
     # the security strength of the function (L=20 for SHA-1).
     # https://www.ietf.org/rfc/rfc2104.txt
-    secret = "${var.secret_token}"
+    secret = "${local.secret_token}"
 
     # The media type used to serialize the payloads.
     content_type = "json"
@@ -209,6 +209,19 @@ resource "github_repository_webhook" "default" {
   # A list of events which should trigger the webhook.
   # https://developer.github.com/v3/activity/events/types/
   events = ["${var.webhook_events}"]
+}
+
+# https://www.terraform.io/docs/providers/random/r/id.html
+resource "random_id" "secret_token" {
+  keepers = {
+    keeper = "${var.name}"
+  }
+
+  byte_length = 40
+}
+
+locals {
+  secret_token = "${var.secret_token == "" ? random_id.secret_token.dec : var.secret_token}"
 }
 
 # CodePipeline Service Role
