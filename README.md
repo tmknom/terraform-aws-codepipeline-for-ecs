@@ -23,7 +23,7 @@ This module provides recommended settings:
 
 ```hcl
 module "codepipeline" {
-  source               = "git::https://github.com/tmknom/terraform-aws-codepipeline-for-ecs.git?ref=tags/1.0.0"
+  source               = "git::https://github.com/tmknom/terraform-aws-codepipeline-for-ecs.git?ref=tags/1.1.0"
   name                 = "example"
   artifact_bucket_name = "${var.artifact_bucket_name}"
   github_oauth_token   = "xxxxxxxx"
@@ -39,7 +39,7 @@ module "codepipeline" {
 
 ```hcl
 module "codepipeline" {
-  source               = "git::https://github.com/tmknom/terraform-aws-codepipeline-for-ecs.git?ref=tags/1.0.0"
+  source               = "git::https://github.com/tmknom/terraform-aws-codepipeline-for-ecs.git?ref=tags/1.1.0"
   name                 = "example"
   artifact_bucket_name = "${var.artifact_bucket_name}"
   github_oauth_token   = "xxxxxxxx"
