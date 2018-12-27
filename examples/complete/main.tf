@@ -6,7 +6,6 @@ module "codepipeline" {
   repository_owner     = "${var.github_organization}"
   repository_name      = "terraform-aws-codepipeline-for-ecs"
   project_name         = "${module.codebuild.codebuild_project_id}"
-  secret_token         = "YouShouldSetVeryStrongSecretToken!"
   cluster_name         = "${aws_ecs_cluster.default.name}"
   service_name         = "${module.ecs_fargate.ecs_service_name}"
 
@@ -14,6 +13,7 @@ module "codepipeline" {
   branch                  = "develop"
   poll_for_source_changes = false
   file_name               = "image.json"
+  secret_token            = "YouShouldSetVeryStrongSecretToken!"
   filter_json_path        = "$.ref"
   filter_match_equals     = "refs/heads/{Branch}"
   webhook_events          = ["push"]
