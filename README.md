@@ -30,7 +30,6 @@ module "codepipeline" {
   repository_owner     = "tmknom"
   repository_name      = "terraform-aws-codepipeline-for-ecs"
   project_name         = "${var.project_name}"
-  secret_token         = "YouShouldSetVeryStrongSecretToken!"
   cluster_name         = "${var.cluster_name}"
   service_name         = "${var.service_name}"
 }
@@ -47,7 +46,6 @@ module "codepipeline" {
   repository_owner     = "tmknom"
   repository_name      = "terraform-aws-codepipeline-for-ecs"
   project_name         = "${var.project_name}"
-  secret_token         = "YouShouldSetVeryStrongSecretToken!"
   cluster_name         = "${var.cluster_name}"
   service_name         = "${var.service_name}"
 
@@ -55,6 +53,7 @@ module "codepipeline" {
   branch                  = "develop"
   poll_for_source_changes = false
   file_name               = "image.json"
+  secret_token            = "YouShouldSetVeryStrongSecretToken!"
   filter_json_path        = "$.ref"
   filter_match_equals     = "refs/heads/{Branch}"
   webhook_events          = ["push"]
@@ -83,7 +82,6 @@ module "codepipeline" {
 | project_name            | The project name of the CodeBuild.                       | string |            -            |   yes    |
 | repository_name         | The name of the repository.                              | string |            -            |   yes    |
 | repository_owner        | The owner of the repository.                             | string |            -            |   yes    |
-| secret_token            | The secret token for the GitHub webhook.                 | string |            -            |   yes    |
 | service_name            | The name of the ECS Service.                             | string |            -            |   yes    |
 | branch                  | The name of the branch.                                  | string |        `master`         |    no    |
 | description             | The description of the all resources.                    | string | `Managed by Terraform`  |    no    |
@@ -93,6 +91,7 @@ module "codepipeline" {
 | filter_match_equals     | The value to match on (e.g. refs/heads/{Branch}).        | string |  `refs/heads/{Branch}`  |    no    |
 | iam_path                | Path in which to create the IAM Role and the IAM Policy. | string |           `/`           |    no    |
 | poll_for_source_changes | Specify true to indicate that periodic checks enabled.   | string |         `false`         |    no    |
+| secret_token            | The secret token for the GitHub webhook.                 | string |         `` | no         |
 | tags                    | A mapping of tags to assign to all resources.            |  map   |          `{}`           |    no    |
 | webhook_events          | A list of events which should trigger the webhook.       |  list  |      `[ "push" ]`       |    no    |
 
