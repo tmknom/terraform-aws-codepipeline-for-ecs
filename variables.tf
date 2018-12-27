@@ -38,12 +38,6 @@ variable "service_name" {
   description = "The name of the ECS Service."
 }
 
-variable "secret_token" {
-  default     = ""
-  type        = "string"
-  description = "The secret token for the GitHub webhook."
-}
-
 variable "encryption_key_id" {
   default     = ""
   type        = "string"
@@ -66,6 +60,12 @@ variable "file_name" {
   default     = "imagedefinitions.json"
   type        = "string"
   description = "The file name of the image definitions."
+}
+
+variable "secret_token" {
+  default     = ""
+  type        = "string"
+  description = "The secret token for the GitHub webhook."
 }
 
 variable "filter_json_path" {
