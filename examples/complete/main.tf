@@ -40,7 +40,7 @@ resource "aws_s3_bucket" "artifact" {
 }
 
 module "ecs_fargate" {
-  source                    = "git::https://github.com/tmknom/terraform-aws-ecs-fargate.git?ref=tags/1.1.0"
+  source                    = "git::https://github.com/tmknom/terraform-aws-ecs-fargate.git?ref=tags/1.3.0"
   name                      = "codepipeline-for-ecs"
   container_name            = "${local.container_name}"
   container_port            = "${local.container_port}"
@@ -72,7 +72,7 @@ locals {
 }
 
 resource "aws_ecs_cluster" "default" {
-  name = "default"
+  name = "codepipeline-for-ecs"
 }
 
 data "aws_iam_policy" "ecs_task_execution" {
@@ -86,7 +86,7 @@ module "ecr" {
 }
 
 module "alb" {
-  source                     = "git::https://github.com/tmknom/terraform-aws-alb.git?ref=tags/1.4.1"
+  source                     = "git::https://github.com/tmknom/terraform-aws-alb.git?ref=tags/1.5.1"
   name                       = "codepipeline-for-ecs"
   vpc_id                     = "${module.vpc.vpc_id}"
   subnets                    = ["${module.vpc.public_subnet_ids}"]
